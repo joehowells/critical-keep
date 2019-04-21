@@ -1,0 +1,2 @@
+class ThroneComponent:
+    pass

@@ -1,0 +1,38 @@
+Critical Keep
+
+another 7DRL by jhowl
+
+
+
+You discover a strange artifact that lets you see into the future and swap one outcome for another. So it should be easy for you to take over the nearby castle. Your enemies will never be able to strike you with your new powers ... right?
+
+
+
+Controls
+
+Use the keypad or vi-keys to move. The cursor keys work too.
+
+  1 2 3      y k u
+   \|/        \|/
+  4-5-6  or  h-.-l
+   /|\        /|\
+  7 8 9      b j n
+
+f - fire / attack using targeting mode
+d - discard items
+i - use / equip items
+s - swap random numbers with enemies
+x - look around
+
+Escape - exit targeting mode / inventory screen
+Ctrl-Q - end the game
+
+
+
+Hint
+
+Your turn only ends if you move or attack.  Use items and swap random numbers as often as you want!
+
+
+
+Press ENTER to start a new game...

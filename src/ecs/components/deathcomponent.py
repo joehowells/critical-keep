@@ -1,0 +1,2 @@
+class DeathComponent:
+    pass
