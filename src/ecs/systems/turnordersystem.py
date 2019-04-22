@@ -6,12 +6,12 @@ class TurnOrderSystem:
     def __init__(self, container):
         self.container = container
 
-    def initialize(self):
+    def event_initialize(self):
         self.container.queue.clear()
         self.container.queue.append(self.container.player)
 
     def event_next_level(self, level):
-        self.initialize()
+        self.event_initialize()
 
     def event_dead(self, defender):
         if defender in self.container.queue and defender is not self.container.player:

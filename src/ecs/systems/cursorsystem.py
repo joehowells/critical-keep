@@ -70,8 +70,11 @@ class CursorSystem:
                 entity_pc = entity[PositionComponent]
 
                 if entity_pc == cursor_pc:
-                    self.container.target = entity
-                    break
+                    if (CombatComponent in entity and InventoryComponent in entity) or RandomNumberComponent in entity:
+                        self.container.target = entity
+                        break
+                    elif self.container.target is None:
+                        self.container.target = entity
 
     def event_cursor_stat(self):
         target = self.container.target
