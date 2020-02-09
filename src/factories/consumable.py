@@ -26,7 +26,7 @@ def random_consumable():
 def elixir():
     return Entity(
         NameComponent('elixir'),
-        DisplayComponent(char=chr(173), fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
+        DisplayComponent(char="\u00a1", fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
         ItemComponent(),
         consumables.Elixir(),
         DurabilityComponent(durability=5),
@@ -36,7 +36,7 @@ def elixir():
 def smoke_bomb():
     return Entity(
         NameComponent('smoke bomb'),
-        DisplayComponent(char=chr(173), fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
+        DisplayComponent(char="\u00a1", fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
         ItemComponent(),
         consumables.SmokeBomb(),
         DurabilityComponent(durability=3),
@@ -56,7 +56,7 @@ def tonic():
 
     return Entity(
         NameComponent(name),
-        DisplayComponent(char=chr(173), fg=constants.COLOR_YELLOW, layer=DrawLayer.ITEM),
+        DisplayComponent(char="\u00a1", fg=constants.COLOR_YELLOW, layer=DrawLayer.ITEM),
         ItemComponent(),
         constructor(),
         DurabilityComponent(durability=durability),
@@ -66,7 +66,7 @@ def tonic():
 def antidote():
     return Entity(
         NameComponent('antidote'),
-        DisplayComponent(char=chr(173), fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
+        DisplayComponent(char="\u00a1", fg=constants.COLOR_WHITE, layer=DrawLayer.ITEM),
         ItemComponent(),
         consumables.Antidote(),
         DurabilityComponent(durability=3),
