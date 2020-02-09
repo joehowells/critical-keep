@@ -76,6 +76,9 @@ class Panel(ABC):
         real_x = x + self.x
         real_y = y + self.y
 
+        if string == chr(0):
+            string = " "
+
         if fg:
             fg_argb = 255, *fg
             terminal.color(terminal.color_from_argb(*fg_argb))

@@ -1,7 +1,6 @@
-import tcod
-
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.positioncomponent import PositionComponent
+from helper_functions import line_iter
 
 
 class MoveSystem:
@@ -61,7 +60,7 @@ class MoveSystem:
         x2 = x1 + dx
         y2 = y1 + dy
 
-        for i, (x, y) in enumerate(tcod.line_iter(x1, y1, x2, y2)):
+        for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
             if not game_map.walkable[x, y]:
                 self.container.event('wall_slam', entity=entity)
                 break

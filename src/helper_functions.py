@@ -4,8 +4,8 @@ from typing import Optional, Tuple, TYPE_CHECKING
 import constants
 from ecs.components.combatcomponent import CombatComponent
 from ecs.components.criticals.abc import CriticalComponent
-from ecs.components.positioncomponent import PositionComponent
 from ecs.components.inventorycomponent import InventoryComponent
+from ecs.components.positioncomponent import PositionComponent
 from ecs.components.randomnumbercomponent import RandomNumberComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from project_types import CombatResult
@@ -119,3 +119,48 @@ def color_lerp(one, two, fraction):
         int(one_channel*(1.0-fraction)+two_channel*fraction)
         for one_channel, two_channel in zip(one, two)
     )
+
+
+def line_iter(xo, yo, xd, yd):
+    x_step = 1 if xd >= xo else -1
+    y_step = 1 if yd >= yo else -1
+
+    x_range = range(xo + x_step, xd + x_step, x_step)
+    y_range = range(yo + y_step, yd + y_step, y_step)
+
+    if xo == xd and yo == yd:
+        return
+
+    if xo == xd:
+        for yi in y_range:
+            yield xo, yi
+
+        return
+
+    if yo == yd:
+        for xi in x_range:
+            yield xi, yo
+
+        return
+
+    if abs(xd-xo) == abs(yd-yo):
+        for xi, yi in zip(x_range, y_range):
+            yield xi, yi
+
+        return
+
+    if abs(xd-xo) > abs(yd-yo):
+        for xi in x_range:
+            yi = int(round(yo + (yd - yo) * (xi - xo) / (xd - xo)))
+            yield xi, yi
+
+        return
+
+    if abs(xd-xo) < abs(yd-yo):
+        for yi in y_range:
+            xi = int(round(xo + (xd - xo) * (yi - yo) / (yd - yo)))
+            yield xi, yi
+
+        return
+
+    assert False

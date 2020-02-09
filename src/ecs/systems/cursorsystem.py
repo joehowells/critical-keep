@@ -1,5 +1,3 @@
-import tcod
-
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.combatcomponent import CombatComponent
 from ecs.components.cursorcomponent import CursorComponent
@@ -9,7 +7,7 @@ from ecs.components.randomnumbercomponent import RandomNumberComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from factories.cursor import make_cursor
-from helper_functions import distance, get_weapon
+from helper_functions import distance, get_weapon, line_iter
 from project_types import GameState
 
 
@@ -198,7 +196,7 @@ class CursorSystem:
                 self.container.event('attack', attacker=player, defender=blocking_entity)
                 return
         else:
-            for i, (x, y) in enumerate(tcod.line_iter(x1, y1, x2, y2)):
+            for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
                 if i > max_range:
                     break
 

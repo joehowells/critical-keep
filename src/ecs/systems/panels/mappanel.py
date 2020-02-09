@@ -1,5 +1,3 @@
-import tcod
-
 import constants
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.cursorcomponent import CursorComponent
@@ -10,7 +8,7 @@ from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from ecs.systems.panels.panel import Panel
-from helper_functions import get_combat_result, combat_result_to_color, color_lerp
+from helper_functions import get_combat_result, combat_result_to_color, color_lerp, line_iter
 from project_types import GameState
 
 
@@ -106,7 +104,7 @@ class MapPanel(Panel):
                 ch = chr(self.ch(x1, y1))
                 self.print(x=x1, y=y1, string=ch, fg=constants.COLOR_YELLOW)
 
-                for i, (x, y) in enumerate(tcod.line_iter(x1, y1, x2, y2)):
+                for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
                     if i > 0:
                         if i > max_range:
                             break

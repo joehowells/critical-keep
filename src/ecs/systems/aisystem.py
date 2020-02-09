@@ -6,7 +6,7 @@ from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
-from helper_functions import get_weapon
+from helper_functions import get_weapon, line_iter
 
 
 class AISystem:
@@ -53,7 +53,7 @@ class AISystem:
                             x2 = player[PositionComponent].x
                             y2 = player[PositionComponent].y
 
-                            for i, (x, y) in enumerate(tcod.line_iter(x1, y1, x2, y2)):
+                            for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
                                 if i > 0:
                                     if i > max_range:
                                         self.path_to_player(entity)

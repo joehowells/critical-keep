@@ -1,5 +1,3 @@
-import tcod
-
 import constants
 from ecs.components.oldpositioncomponent import OldPositionComponent
 from ecs.components.positioncomponent import PositionComponent
@@ -23,7 +21,7 @@ class VisionSystem:
         x = player[PositionComponent].x
         y = player[PositionComponent].y
 
-        game_map.compute_fov(x, y, radius=constants.FOV_RADIUS, algorithm=tcod.FOV_SHADOW)
+        game_map.compute_fov(x, y, radius=constants.FOV_RADIUS)
         game_map.explored |= game_map.fov
 
         for entity in self.container.entities:
