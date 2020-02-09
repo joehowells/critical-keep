@@ -1,4 +1,5 @@
 import random
+from typing import List, Type
 
 import constants
 from constants import WEAPON_TIER_SELECTION
@@ -110,7 +111,7 @@ def make_exotic_sword(level: int) -> Entity:
     dc: DurabilityComponent = basic[DurabilityComponent]
     dc.value += 10
 
-    constructors: CriticalComponent = [
+    constructors: List[Type[CriticalComponent]] = [
         CleaveComponent,
         KnockbackComponent,
         ShatterComponent,
@@ -136,7 +137,7 @@ def make_exotic_axe(level: int) -> Entity:
     dc: DurabilityComponent = basic[DurabilityComponent]
     dc.value += 10
 
-    constructors: CriticalComponent = [
+    constructors: List[Type[CriticalComponent]] = [
         ExtraDamageComponent,
         KnockbackComponent,
         ShatterComponent,
@@ -162,7 +163,7 @@ def make_exotic_spear(level: int) -> Entity:
     dc: DurabilityComponent = basic[DurabilityComponent]
     dc.value += 10
 
-    constructors: CriticalComponent = [
+    constructors: List[Type[CriticalComponent]] = [
         CleaveComponent,
         ExtraDamageComponent,
         ShatterComponent,
@@ -188,7 +189,7 @@ def make_exotic_bow(level: int) -> Entity:
     dc: DurabilityComponent = basic[DurabilityComponent]
     dc.value += 10
 
-    constructors: CriticalComponent = [
+    constructors: List[Type[CriticalComponent]] = [
         CleaveComponent,
         KnockbackComponent,
         ShatterComponent,
