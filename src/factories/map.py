@@ -1,9 +1,8 @@
 import itertools
 import random
 
-import numpy as np
-
 from map import Map
+from multiarray import MultiArray
 
 
 class Room:
@@ -121,8 +120,7 @@ def make_candidate():
         link.y1 = min(rooms[m].y2, rooms[n].y2)
         link.y2 = max(rooms[m].y1, rooms[n].y1)
 
-    floor = np.empty(shape=(64, 28), dtype=np.int8)
-    floor[:] = False
+    floor = MultiArray(64, 28, False)
 
     for i, room in enumerate(rooms.values()):
         floor[room.x1:room.x2, room.y1:room.y2] = True

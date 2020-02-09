@@ -4,7 +4,7 @@ from cx_Freeze import setup, Executable
 
 # cx_Freeze options, see documentation.
 build_exe_options = {
-    'packages': ['cffi', 'numpy'],
+    'packages': [],
     'excludes': [],
     'include_files': ['src/data'],
 }

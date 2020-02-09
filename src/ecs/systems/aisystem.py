@@ -1,11 +1,10 @@
-import numpy as np
-
 from ecs.components.aicomponent import AIComponent
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from helper_functions import get_weapon, line_iter, a_star
+from multiarray import MultiArray
 
 
 class AISystem:
@@ -85,7 +84,7 @@ class AISystem:
         x2 = player[PositionComponent].x
         y2 = player[PositionComponent].y
 
-        cost = game_map.walkable.astype(np.int8)
+        cost = MultiArray.from_multiarray(game_map.walkable, int)
 
         entities_with_position = [
             e for e in self.container.entities

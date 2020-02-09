@@ -1,3 +1,2 @@
 bearlibterminal
 cx-Freeze>=5.1.1
-numpy>=1.16.2

@@ -1,8 +1,6 @@
-from bisect import insort
 import math
+from bisect import insort
 from typing import Optional, Tuple, TYPE_CHECKING, List
-
-import numpy as np
 
 import constants
 from ecs.components.combatcomponent import CombatComponent
@@ -11,6 +9,7 @@ from ecs.components.inventorycomponent import InventoryComponent
 from ecs.components.positioncomponent import PositionComponent
 from ecs.components.randomnumbercomponent import RandomNumberComponent
 from ecs.components.weaponcomponent import WeaponComponent
+from multiarray import MultiArray
 from project_types import CombatResult
 
 if TYPE_CHECKING:
@@ -169,7 +168,7 @@ def line_iter(xo, yo, xd, yd):
     assert False
 
 
-def a_star(cost_array: np.ndarray, xo: int, yo: int, xd: int, yd: int) -> Optional[List[Tuple[int, int]]]:
+def a_star(cost_array: MultiArray, xo: int, yo: int, xd: int, yd: int) -> Optional[List[Tuple[int, int]]]:
     stack = [(-math.hypot(xd-xo, yd-yo), [(xo, yo)])]
 
     while stack:

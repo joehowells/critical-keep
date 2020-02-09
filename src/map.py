@@ -1,17 +1,17 @@
 from math import hypot
 
-import numpy
-
 from helper_functions import line_iter
+from multiarray import MultiArray
 
 
 class Map:
-    def __init__(self, floor: numpy.ndarray, rooms, endpoints):
-        self.width, self.height = floor.shape
-        self.walkable = numpy.array(floor, dtype=numpy.bool)
-        self.transparent = numpy.array(floor, dtype=numpy.bool)
-        self.fov = numpy.empty(shape=(64, 28), dtype=numpy.bool)
-        self.explored = numpy.empty(shape=(64, 28), dtype=numpy.bool)
+    def __init__(self, floor: MultiArray, rooms, endpoints):
+        self.width = 64
+        self.height = 28
+        self.walkable = MultiArray.from_multiarray(floor)
+        self.transparent = MultiArray.from_multiarray(floor)
+        self.fov = MultiArray(64, 28, False)
+        self.explored = MultiArray(64, 28, False)
         self.explored[:] = False
 
         self.rooms = rooms
