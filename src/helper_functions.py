@@ -1,5 +1,8 @@
+from bisect import insort
 import math
-from typing import Optional, Tuple, TYPE_CHECKING
+from typing import Optional, Tuple, TYPE_CHECKING, List
+
+import numpy as np
 
 import constants
 from ecs.components.combatcomponent import CombatComponent
@@ -164,3 +167,45 @@ def line_iter(xo, yo, xd, yd):
         return
 
     assert False
+
+
+def a_star(cost_array: np.ndarray, xo: int, yo: int, xd: int, yd: int) -> Optional[List[Tuple[int, int]]]:
+    stack = [(-math.hypot(xd-xo, yd-yo), [(xo, yo)])]
+
+    while stack:
+        cost, path = stack.pop()
+        x, y = path[-1]
+
+        neighbors = [
+            (x-1, y-1),
+            (x-1, y),
+            (x-1, y+1),
+            (x, y-1),
+            (x, y+1),
+            (x+1, y-1),
+            (x+1, y),
+            (x+1, y+1),
+        ]
+
+        for xi, yi in neighbors:
+            if (xi, yi) in path:
+                continue
+
+            if not 0 <= x < cost_array.shape[0]:
+                continue
+
+            if not 0 <= y < cost_array.shape[1]:
+                continue
+
+            if cost_array[x, y] == 0:
+                continue
+
+            if xi == xd and yi == yd:
+                return path[1:]
+
+            new_cost = cost_array[x, y] + math.hypot(yd-yi, xd-xi) - math.hypot(yd-y, xd-x)
+            new_path = path + [(xi, yi)]
+            insort(stack, (-new_cost, new_path))
+
+    return None
+

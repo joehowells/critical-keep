@@ -1,12 +1,11 @@
 import numpy as np
-import tcod.path
 
 from ecs.components.aicomponent import AIComponent
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
-from helper_functions import get_weapon, line_iter
+from helper_functions import get_weapon, line_iter, a_star
 
 
 class AISystem:
@@ -86,7 +85,7 @@ class AISystem:
         x2 = player[PositionComponent].x
         y2 = player[PositionComponent].y
 
-        astar = tcod.path.AStar(game_map.walkable.astype(np.int8))
+        cost = game_map.walkable.astype(np.int8)
 
         entities_with_position = [
             e for e in self.container.entities
@@ -96,9 +95,9 @@ class AISystem:
         for e in entities_with_position:
             x = e[PositionComponent].x
             y = e[PositionComponent].y
-            astar.cost[x, y] = 16
+            cost[x, y] = 16
 
-        path = astar.get_path(x1, y1, x2, y2)
+        path = a_star(cost, x1, y1, x2, y2)
         if len(path) == 0:
             return
 
