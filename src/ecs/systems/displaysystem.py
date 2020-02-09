@@ -59,4 +59,3 @@ class DisplaySystem:
             self.title_screen.update()
 
         terminal.refresh()
-        terminal.delay(40)

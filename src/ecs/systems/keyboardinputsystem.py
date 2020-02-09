@@ -10,9 +10,6 @@ class KeyboardInputSystem:
     def update(self):
         player = self.container.player
 
-        if not terminal.has_input():
-            return
-
         event = terminal.read()
 
         if event == terminal.TK_CLOSE:
