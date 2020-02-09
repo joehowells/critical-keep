@@ -102,3 +102,20 @@ def distance(a: 'Entity', b: 'Entity') -> float:
     x = b_position.x - a_position.x
     y = b_position.y - a_position.y
     return math.hypot(x, y)
+
+
+def color_lerp(one, two, fraction):
+    if isinstance(one, int):
+        if one < 0:
+            one += 2**32
+        one = (one >> 16) & 0xff, (one >> 8) & 0xff, one & 0xff
+
+    if isinstance(two, int):
+        if two < 0:
+            two += 2**32
+        two = (two >> 16) & 0xff, (two >> 8) & 0xff, two & 0xff
+
+    return tuple(
+        int(one_channel*(1.0-fraction)+two_channel*fraction)
+        for one_channel, two_channel in zip(one, two)
+    )

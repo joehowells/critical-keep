@@ -16,7 +16,7 @@ class MessagePanel(Panel):
 
         new_messages = new_messages[-h:]
 
-        self.console.draw_frame(0, 0, self.w, self.h, title='Messages')
+        self.draw_frame(0, 0, self.w, self.h, title='Messages')
 
         for i, (message, color) in enumerate(new_messages):
-            self.console.print(x=2, y=i+2, string=message, fg=color)
+            self.print(x=2, y=i+2, string=message, fg=color)

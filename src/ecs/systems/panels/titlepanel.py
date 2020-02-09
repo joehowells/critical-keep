@@ -21,8 +21,8 @@ class TitlePanel(Panel):
         for i, line in enumerate(wrap_lines):
             y = i
             if i == 0:
-                self.console.print(x=0, y=y, string='Critical', fg=constants.COLOR_CRITICAL)
-                self.console.print(x=9, y=y, string='Keep', fg=constants.COLOR_MISS)
+                self.print(x=0, y=y, string='Critical', fg=constants.COLOR_CRITICAL)
+                self.print(x=9, y=y, string='Keep', fg=constants.COLOR_MISS)
 
             else:
                 if i in (2, 13, 34, 41):
@@ -30,4 +30,4 @@ class TitlePanel(Panel):
                 else:
                     fg = constants.COLOR_WHITE
 
-                self.console.print(x=0, y=y, string=line, fg=fg)
+                self.print(x=0, y=y, string=line, fg=fg)

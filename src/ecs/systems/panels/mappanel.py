@@ -10,7 +10,7 @@ from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from ecs.systems.panels.panel import Panel
-from helper_functions import get_combat_result, combat_result_to_color
+from helper_functions import get_combat_result, combat_result_to_color, color_lerp
 from project_types import GameState
 
 
@@ -29,30 +29,30 @@ class MapPanel(Panel):
                     string = '.'
                     fg = constants.COLOR_GRAY1
                     if y > 0 and not game_map.walkable[x, y-1]:
-                        fg = tcod.color_lerp((0, 0, 0), fg, 0.75)
+                        fg = color_lerp((0, 0, 0), fg, 0.75)
                 else:
                     string = '#'
                     fg = constants.COLOR_GRAY3
 
-                bg = tcod.color_lerp((0, 0, 0), fg, 0.5)
+                bg = color_lerp((0, 0, 0), fg, 0.5)
 
                 if game_map.fov[x, y]:
-                    self.console.print(x=x, y=y, string=string, fg=fg, bg=bg)
+                    self.print(x=x, y=y, string=string, fg=fg, bg=bg)
                 elif game_map.explored[x, y]:
-                    fg = tcod.color_lerp((0, 0, 0), fg, 0.4)
-                    bg = tcod.color_lerp((0, 0, 0), fg, 0.5)
-                    self.console.print(x=x, y=y, string=string, fg=fg, bg=bg)
+                    fg = color_lerp((0, 0, 0), fg, 0.4)
+                    bg = color_lerp((0, 0, 0), fg, 0.5)
+                    self.print(x=x, y=y, string=string, fg=fg, bg=bg)
                 else:
                     # Shading effect to imitate high walls
                     if y > 0:
                         if game_map.explored[x, y - 1]:
-                            fg = tcod.color_lerp((0, 0, 0), constants.COLOR_GRAY3, 0.25)
-                            bg = tcod.color_lerp((0, 0, 0), fg, 0.5)
-                            self.console.print(x=x, y=y, string=chr(35), fg=fg, bg=bg)
-                        elif self.console.ch[x, y - 1] == 35:
-                            fg = tcod.color_lerp((0, 0, 0), tuple(self.console.fg[x, y - 1, :]), 0.5)
-                            bg = tcod.color_lerp((0, 0, 0), fg, 0.5)
-                            self.console.print(x=x, y=y, string=chr(35), fg=fg, bg=bg)
+                            fg = color_lerp((0, 0, 0), constants.COLOR_GRAY3, 0.25)
+                            bg = color_lerp((0, 0, 0), fg, 0.5)
+                            self.print(x=x, y=y, string=chr(35), fg=fg, bg=bg)
+                        elif self.ch(x, y - 1) == 35:
+                            fg = color_lerp((0, 0, 0), self.fg(x, y - 1), 0.5)
+                            bg = color_lerp((0, 0, 0), fg, 0.5)
+                            self.print(x=x, y=y, string=chr(35), fg=fg, bg=bg)
 
         entities_with_display = [e for e in entities if DisplayComponent in e]
         entities_with_display.sort(key=lambda e: e[DisplayComponent].layer)
@@ -67,18 +67,18 @@ class MapPanel(Panel):
                     fg = dc.fg
 
                 if VisibleComponent in e:
-                    self.console.print(x=pc.x, y=pc.y, string=dc.char, fg=fg)
+                    self.print(x=pc.x, y=pc.y, string=dc.char, fg=fg)
 
                 elif OldPositionComponent in e:
                     opc = e[OldPositionComponent]
-                    fg = tcod.color_lerp((0, 0, 0), fg, 0.4)
-                    self.console.print(x=opc.x, y=opc.y, string=dc.char, fg=fg)
+                    fg = color_lerp((0, 0, 0), fg, 0.4)
+                    self.print(x=opc.x, y=opc.y, string=dc.char, fg=fg)
 
         cursor = next((e for e in entities if CursorComponent in e), None)
         if cursor is not None:
             pc = cursor[PositionComponent]
             dc = cursor[DisplayComponent]
-            self.console.print(x=pc.x, y=pc.y, string=dc.char, fg=dc.fg)
+            self.print(x=pc.x, y=pc.y, string=dc.char, fg=dc.fg)
 
         # Draw the cursor if in the firing line
         if input_mode is GameState.MAIN_FIRE:
@@ -103,8 +103,8 @@ class MapPanel(Panel):
                 y2 = cursor_position.y
 
                 # line_iter omits the origin cell
-                ch = chr(self.console.ch[x1, y1])
-                self.console.print(x=x1, y=y1, string=ch, fg=constants.COLOR_YELLOW)
+                ch = chr(self.ch(x1, y1))
+                self.print(x=x1, y=y1, string=ch, fg=constants.COLOR_YELLOW)
 
                 for i, (x, y) in enumerate(tcod.line_iter(x1, y1, x2, y2)):
                     if i > 0:
@@ -115,10 +115,10 @@ class MapPanel(Panel):
                         if game_map.fov[x, y]:
                             fg = constants.COLOR_YELLOW
                         else:
-                            fg = tcod.color_lerp((0, 0, 0), constants.COLOR_YELLOW, 0.4)
+                            fg = color_lerp((0, 0, 0), constants.COLOR_YELLOW, 0.4)
 
-                        ch = chr(self.console.ch[x, y])
-                        self.console.print(x=x, y=y, string=ch, fg=fg)
+                        ch = chr(self.ch(x, y))
+                        self.print(x=x, y=y, string=ch, fg=fg)
 
                         # Only check for blocking entities in fov tiles
                         if game_map.fov[x, y]:

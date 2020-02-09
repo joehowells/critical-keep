@@ -26,42 +26,42 @@ class InventoryPanel(Panel):
         else:
             assert False  # Unreachable branch
 
-        self.console.draw_frame(x=0, y=0, width=self.w, height=self.h, title=title)
+        self.draw_frame(x=0, y=0, width=self.w, height=self.h, title=title)
 
         if target is not None:
             cc: CombatComponent = target[CombatComponent]
 
-            self.console.print(x=2, y=2, string=f'Health:  {cc.cur_hp:>2d}/{cc.max_hp:>2d}')
-            self.console.print(x=2, y=4, string=f'Attack:     {cc.attack_stat:>2d}')
-            self.console.print(x=2, y=5, string=f'Defend:     {cc.defend_stat:>2d}')
-            self.console.print(x=2, y=6, string=f'Hit:      {cc.hit_stat:>3d}%')
-            self.console.print(x=2, y=7, string=f'Critical: {cc.critical_stat:>3d}%')
+            self.print(x=2, y=2, string=f'Health:  {cc.cur_hp:>2d}/{cc.max_hp:>2d}')
+            self.print(x=2, y=4, string=f'Attack:     {cc.attack_stat:>2d}')
+            self.print(x=2, y=5, string=f'Defend:     {cc.defend_stat:>2d}')
+            self.print(x=2, y=6, string=f'Hit:      {cc.hit_stat:>3d}%')
+            self.print(x=2, y=7, string=f'Critical: {cc.critical_stat:>3d}%')
 
             ic: InventoryComponent = target[InventoryComponent]
 
             item_entity = ic.items.get(0)
 
             if item_entity is None:
-                self.console.print(x=20, y=2, string=f'a) None', fg=constants.COLOR_GRAY1)
+                self.print(x=20, y=2, string=f'a) None', fg=constants.COLOR_GRAY1)
             else:
                 name = item_entity[NameComponent].name
                 fg = item_entity[DisplayComponent].fg
-                self.console.print(x=20, y=2, string=f'a) {name}', fg=fg)
+                self.print(x=20, y=2, string=f'a) {name}', fg=fg)
 
                 if DurabilityComponent in item_entity:
                     durability = item_entity[DurabilityComponent].value
-                    self.console.print(x=48, y=2, string=f'{durability:>2d}', fg=fg)
+                    self.print(x=48, y=2, string=f'{durability:>2d}', fg=fg)
 
             for i, letter in zip(range(1, ic.capacity), string.ascii_lowercase[1:]):
                 item_entity = ic.items.get(i)
 
                 if item_entity is None:
-                    self.console.print(x=20, y=3+i, string=f'{letter}) None', fg=constants.COLOR_GRAY1)
+                    self.print(x=20, y=3+i, string=f'{letter}) None', fg=constants.COLOR_GRAY1)
                 else:
                     name = item_entity[NameComponent].name
                     fg = item_entity[DisplayComponent].fg
-                    self.console.print(x=20, y=3+i, string=f'{letter}) {name}', fg=fg)
+                    self.print(x=20, y=3+i, string=f'{letter}) {name}', fg=fg)
 
                     if DurabilityComponent in item_entity:
                         durability = item_entity[DurabilityComponent].value
-                        self.console.print(x=48, y=3+i, string=f'{durability:>2d}', fg=fg)
+                        self.print(x=48, y=3+i, string=f'{durability:>2d}', fg=fg)

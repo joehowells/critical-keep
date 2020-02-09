@@ -10,7 +10,7 @@ class TurnOrderPanel(Panel):
     def update_contents(self):
         entities = self.container.queue
 
-        self.console.draw_frame(0, 0, self.w, self.h, title='Random Numbers')
+        self.draw_frame(0, 0, self.w, self.h, title='Random Numbers')
 
         target = self.container.target
 
@@ -21,9 +21,9 @@ class TurnOrderPanel(Panel):
             fg = combat_result_to_color(combat_result)
 
             if e is target:
-                self.console.draw_rect(x=1, y=y+2, width=self.w-2, height=1, ch=0, bg=constants.COLOR_GRAY1)
+                self.draw_rect(x=1, y=y+2, width=self.w-2, height=1, ch=0, bg=constants.COLOR_GRAY1)
 
             string = f'{e[RandomNumberComponent].number:>2d} {e[NameComponent].name}'
             string = string[:28]
 
-            self.console.print(x=2, y=y+2, string=string, fg=fg)
+            self.print(x=2, y=y+2, string=string, fg=fg)
