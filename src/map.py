@@ -42,7 +42,7 @@ class Map:
                     break
 
         for yd in range(y-radius+1, y+radius):
-            xd = max(y-radius, 0)
+            xd = max(x-radius, 0)
 
             for xi, yi in line_iter(x, y, xd, yd):
                 self.fov[xi, yi] = True
