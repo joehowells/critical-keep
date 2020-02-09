@@ -54,29 +54,28 @@ class AISystem:
                             y2 = player[PositionComponent].y
 
                             for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
-                                if i > 0:
-                                    if i > max_range:
-                                        self.path_to_player(entity)
-                                        break
-                                    else:
-                                        blocking_entity = next(
-                                            (
-                                                e for e in self.container.entities
-                                                if PositionComponent in e
-                                                and BlockingComponent in e
-                                                and e[PositionComponent].x == x
-                                                and e[PositionComponent].y == y
-                                            ),
-                                            None,
-                                        )
+                                if i >= max_range:
+                                    self.path_to_player(entity)
+                                    break
+                                else:
+                                    blocking_entity = next(
+                                        (
+                                            e for e in self.container.entities
+                                            if PositionComponent in e
+                                            and BlockingComponent in e
+                                            and e[PositionComponent].x == x
+                                            and e[PositionComponent].y == y
+                                        ),
+                                        None,
+                                    )
 
-                                        if blocking_entity is not None:
-                                            if blocking_entity is player:
-                                                self.container.event('attack', attacker=entity, defender=player)
-                                                break
-                                            else:
-                                                self.path_to_player(entity)
-                                                break
+                                    if blocking_entity is not None:
+                                        if blocking_entity is player:
+                                            self.container.event('attack', attacker=entity, defender=player)
+                                            break
+                                        else:
+                                            self.path_to_player(entity)
+                                            break
 
     def path_to_player(self, entity):
         player = self.container.player

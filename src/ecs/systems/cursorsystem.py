@@ -197,7 +197,7 @@ class CursorSystem:
                 return
         else:
             for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
-                if i > max_range:
+                if i >= max_range:
                     break
 
                 blocking_entity = next(

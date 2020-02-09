@@ -105,32 +105,31 @@ class MapPanel(Panel):
                 self.print(x=x1, y=y1, string=ch, fg=constants.COLOR_YELLOW)
 
                 for i, (x, y) in enumerate(line_iter(x1, y1, x2, y2)):
-                    if i > 0:
-                        if i > max_range:
+                    if i >= max_range:
+                        break
+
+                    # Ray casting may be different between numpy and tcod so include non-fov
+                    if game_map.fov[x, y]:
+                        fg = constants.COLOR_YELLOW
+                    else:
+                        fg = color_lerp((0, 0, 0), constants.COLOR_YELLOW, 0.4)
+
+                    ch = chr(self.ch(x, y))
+                    self.print(x=x, y=y, string=ch, fg=fg)
+
+                    # Only check for blocking entities in fov tiles
+                    if game_map.fov[x, y]:
+                        blocking_entity = next(
+                            (
+                                e for e in entities
+                                if PositionComponent in e
+                                and BlockingComponent in e
+                                and e[PositionComponent].x == x
+                                and e[PositionComponent].y == y
+                                and e is not player
+                                and e is not cursor
+                            ),
+                            None,
+                        )
+                        if blocking_entity is not None:
                             break
-
-                        # Ray casting may be different between numpy and tcod so include non-fov
-                        if game_map.fov[x, y]:
-                            fg = constants.COLOR_YELLOW
-                        else:
-                            fg = color_lerp((0, 0, 0), constants.COLOR_YELLOW, 0.4)
-
-                        ch = chr(self.ch(x, y))
-                        self.print(x=x, y=y, string=ch, fg=fg)
-
-                        # Only check for blocking entities in fov tiles
-                        if game_map.fov[x, y]:
-                            blocking_entity = next(
-                                (
-                                    e for e in entities
-                                    if PositionComponent in e
-                                    and BlockingComponent in e
-                                    and e[PositionComponent].x == x
-                                    and e[PositionComponent].y == y
-                                    and e is not player
-                                    and e is not cursor
-                                ),
-                                None,
-                            )
-                            if blocking_entity is not None:
-                                break
