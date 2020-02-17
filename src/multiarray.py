@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field, InitVar
 from itertools import product
+from operator import mul
 from typing import Any, List, Union
 
 
@@ -26,6 +27,10 @@ class MultiArray:
     def size(self):
         return self.w * self.h
 
+    @property
+    def strides(self):
+        return 1, self.w
+
     def __post_init__(self, value):
         self.data = [value for _ in range(self.size)]
 
@@ -48,9 +53,7 @@ class MultiArray:
                 return self.data[i]
 
         else:
-            i, j = key
-
-            raw_index = self.w * j + i
+            raw_index = sum(map(mul, key, self.strides))
             return self.data[raw_index]
 
     def __setitem__(self, key, value):
@@ -67,8 +70,8 @@ class MultiArray:
             x_range = key_to_range(x_key, self.w)
             y_range = key_to_range(y_key, self.h)
 
-            for i, j in product(x_range, y_range):
-                raw_index = self.w * j + i
+            for indices in product(x_range, y_range):
+                raw_index = sum(map(mul, indices, self.strides))
                 self.data[raw_index] = value
 
     def __or__(self, other):
