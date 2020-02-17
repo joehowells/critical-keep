@@ -50,7 +50,8 @@ class MultiArray:
         else:
             i, j = key
 
-            return self.data[self.w * j + i]
+            raw_index = self.w * j + i
+            return self.data[raw_index]
 
     def __setitem__(self, key, value):
         if isinstance(key, int):
@@ -67,7 +68,8 @@ class MultiArray:
             y_range = key_to_range(y_key, self.h)
 
             for i, j in product(x_range, y_range):
-                self.data[self.w * j + i] = value
+                raw_index = self.w * j + i
+                self.data[raw_index] = value
 
     def __or__(self, other):
         assert self.shape == other.shape
