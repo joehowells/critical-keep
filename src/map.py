@@ -11,8 +11,9 @@ class Map:
         self.height = 28
         self.walkable = deepcopy(floor)
         self.transparent = deepcopy(floor)
-        self.fov = MultiArray((64, 28), False)
-        self.explored = MultiArray((64, 28), False)
+        self.fov = MultiArray((64, 28))
+        self.fov[:] = False
+        self.explored = MultiArray((64, 28))
         self.explored[:] = False
 
         self.rooms = rooms

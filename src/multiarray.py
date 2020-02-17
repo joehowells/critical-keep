@@ -1,7 +1,7 @@
-from dataclasses import dataclass, field, InitVar
+from dataclasses import dataclass, replace
 from functools import reduce
 from itertools import product
-from operator import mul
+from operator import mul, or_
 from typing import Any, List, Tuple, Union
 
 
@@ -16,8 +16,7 @@ def key_to_range(key: Union[int, slice], dim: int) -> range:
 @dataclass
 class MultiArray:
     shape: Tuple[int, ...]
-    data: List[Any] = field(init=False)
-    value: InitVar[Any] = None
+    data: List[Any] = None
 
     @property
     def size(self):
@@ -27,8 +26,9 @@ class MultiArray:
     def strides(self):
         return tuple(reduce(mul, self.shape[:dim], 1) for dim, _ in enumerate(self.shape))
 
-    def __post_init__(self, value):
-        self.data = [value for _ in range(self.size)]
+    def __post_init__(self):
+        if self.data is None:
+            self.data = [None for _ in range(self.size)]
 
     def __getitem__(self, key):
         if isinstance(key, int):
@@ -58,11 +58,4 @@ class MultiArray:
                 self.data[raw_index] = value
 
     def __or__(self, other):
-        assert self.shape == other.shape
-
-        result = MultiArray(self.shape)
-
-        for i in range(self.size):
-            result[i] = self[i] or other[i]
-
-        return result
+        return replace(self, data=list(map(or_, self.data, other.data)))
