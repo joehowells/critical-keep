@@ -65,12 +65,9 @@ class MultiArray:
                 self.data[i] = value
 
         else:
-            x_key, y_key = key
+            ranges = (key_to_range(k, d) for k, d in zip(key, self.shape))
 
-            x_range = key_to_range(x_key, self.w)
-            y_range = key_to_range(y_key, self.h)
-
-            for indices in product(x_range, y_range):
+            for indices in product(*ranges):
                 raw_index = sum(map(mul, indices, self.strides))
                 self.data[raw_index] = value
 
