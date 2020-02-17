@@ -1,6 +1,14 @@
 from dataclasses import dataclass, field, InitVar
 from itertools import product
-from typing import Any, List
+from typing import Any, List, Union
+
+
+def key_to_range(key: Union[int, slice], dim: int) -> range:
+    if isinstance(key, int):
+        key = slice(key, key + 1, 1)
+
+    start, stop, step = key.indices(dim)
+    return range(start, stop, step)
 
 
 @dataclass
@@ -32,8 +40,7 @@ class MultiArray:
             return self.data[key]
 
         elif isinstance(key, slice):
-            start, stop, step = key.indices(self.w*self.h)
-            for i in range(start, stop, step):
+            for i in key_to_range(key, self.w*self.h):
                 return self.data[i]
 
         else:
@@ -46,24 +53,14 @@ class MultiArray:
             self.data[key] = value
 
         elif isinstance(key, slice):
-            start, stop, step = key.indices(self.w*self.h)
-            for i in range(start, stop, step):
+            for i in key_to_range(key, self.w*self.h):
                 self.data[i] = value
 
         else:
             x_key, y_key = key
 
-            if isinstance(x_key, int):
-                x_key = slice(x_key, x_key+1, 1)
-
-            start, stop, step = x_key.indices(self.w)
-            x_range = range(start, stop, step)
-
-            if isinstance(y_key, int):
-                y_key = slice(y_key, y_key+1, 1)
-
-            start, stop, step = y_key.indices(self.h)
-            y_range = range(start, stop, step)
+            x_range = key_to_range(x_key, self.w)
+            y_range = key_to_range(y_key, self.h)
 
             for i, j in product(x_range, y_range):
                 self.data[self.w * j + i] = value
