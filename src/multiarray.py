@@ -22,8 +22,12 @@ class MultiArray:
     def shape(self):
         return self.w, self.h
 
+    @property
+    def size(self):
+        return self.w * self.h
+
     def __post_init__(self, value):
-        self.data = [value for _ in range(self.w*self.h)]
+        self.data = [value for _ in range(self.size)]
 
     @classmethod
     def from_multi_array(cls, other, cast=None):
@@ -40,7 +44,7 @@ class MultiArray:
             return self.data[key]
 
         elif isinstance(key, slice):
-            for i in key_to_range(key, self.w*self.h):
+            for i in key_to_range(key, self.size):
                 return self.data[i]
 
         else:
@@ -53,7 +57,7 @@ class MultiArray:
             self.data[key] = value
 
         elif isinstance(key, slice):
-            for i in key_to_range(key, self.w*self.h):
+            for i in key_to_range(key, self.size):
                 self.data[i] = value
 
         else:
@@ -70,7 +74,7 @@ class MultiArray:
 
         result = MultiArray(self.w, self.h)
 
-        for i in range(self.w*self.h):
+        for i in range(self.size):
             result[i] = self[i] or other[i]
 
         return result
