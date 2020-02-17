@@ -15,7 +15,7 @@ def key_to_range(key: Union[int, slice], dim: int) -> range:
 class MultiArray:
     w: int
     h: int
-    data: List[List[Any]] = field(init=False)
+    data: List[Any] = field(init=False)
     value: InitVar[Any] = None
 
     @property
