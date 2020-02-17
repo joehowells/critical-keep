@@ -14,22 +14,6 @@ class MultiArray:
     def shape(self):
         return self.w, self.h
 
-    def slice_to_range(self, sl, axis=None):
-        if axis is None:
-            default_stop = len(self.data)
-        elif axis == 0:
-            default_stop = self.w
-        elif axis == 1:
-            default_stop = self.h
-        else:
-            raise ValueError
-
-        start = sl.start if sl.start is not None else 0
-        stop = sl.stop if sl.stop is not None else default_stop
-        step = sl.step if sl.step is not None else 1
-
-        return range(start, stop, step)
-
     def __post_init__(self, value):
         self.data = [value for _ in range(self.w*self.h)]
 
@@ -48,7 +32,8 @@ class MultiArray:
             return self.data[key]
 
         elif isinstance(key, slice):
-            for i in self.slice_to_range(key, None):
+            start, stop, step = key.indices(self.w*self.h)
+            for i in range(start, stop, step):
                 return self.data[i]
 
         else:
@@ -61,23 +46,26 @@ class MultiArray:
             self.data[key] = value
 
         elif isinstance(key, slice):
-            for i in self.slice_to_range(key, None):
+            start, stop, step = key.indices(self.w*self.h)
+            for i in range(start, stop, step):
                 self.data[i] = value
 
         else:
             x_key, y_key = key
 
             if isinstance(x_key, int):
-                x_key = range(x_key, x_key+1, 1)
-            else:
-                x_key = self.slice_to_range(x_key)
+                x_key = slice(x_key, x_key+1, 1)
+
+            start, stop, step = x_key.indices(self.w)
+            x_range = range(start, stop, step)
 
             if isinstance(y_key, int):
-                y_key = range(y_key, y_key+1, 1)
-            else:
-                y_key = self.slice_to_range(y_key)
+                y_key = slice(y_key, y_key+1, 1)
 
-            for i, j in product(x_key, y_key):
+            start, stop, step = y_key.indices(self.h)
+            y_range = range(start, stop, step)
+
+            for i, j in product(x_range, y_range):
                 self.data[self.w * j + i] = value
 
     def __or__(self, other):
