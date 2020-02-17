@@ -120,7 +120,7 @@ def make_candidate():
         link.y1 = min(rooms[m].y2, rooms[n].y2)
         link.y2 = max(rooms[m].y1, rooms[n].y1)
 
-    floor = MultiArray(64, 28, False)
+    floor = MultiArray((64, 28), False)
 
     for i, room in enumerate(rooms.values()):
         floor[room.x1:room.x2, room.y1:room.y2] = True

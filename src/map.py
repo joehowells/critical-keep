@@ -10,8 +10,8 @@ class Map:
         self.height = 28
         self.walkable = MultiArray.from_multi_array(floor)
         self.transparent = MultiArray.from_multi_array(floor)
-        self.fov = MultiArray(64, 28, False)
-        self.explored = MultiArray(64, 28, False)
+        self.fov = MultiArray((64, 28), False)
+        self.explored = MultiArray((64, 28), False)
         self.explored[:] = False
 
         self.rooms = rooms
