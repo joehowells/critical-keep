@@ -30,16 +30,6 @@ class MultiArray:
     def __post_init__(self, value):
         self.data = [value for _ in range(self.size)]
 
-    @classmethod
-    def from_multi_array(cls, other, cast=None):
-        result = cls(other.shape)
-        if cast:
-            result.data = list(map(cast, other.data))
-        else:
-            result.data = other.data
-
-        return result
-
     def __getitem__(self, key):
         if isinstance(key, int):
             return self.data[key]

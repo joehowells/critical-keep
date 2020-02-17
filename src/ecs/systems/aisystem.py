@@ -1,10 +1,11 @@
+from copy import deepcopy
+
 from ecs.components.aicomponent import AIComponent
 from ecs.components.blockingcomponent import BlockingComponent
 from ecs.components.positioncomponent import PositionComponent
 from ecs.components.visiblecomponent import VisibleComponent
 from ecs.components.weaponcomponent import WeaponComponent
 from helper_functions import get_weapon, line_iter, a_star
-from multiarray import MultiArray
 
 
 class AISystem:
@@ -84,7 +85,7 @@ class AISystem:
         x2 = player[PositionComponent].x
         y2 = player[PositionComponent].y
 
-        cost = MultiArray.from_multi_array(game_map.walkable, int)
+        cost = deepcopy(game_map.walkable)
 
         entities_with_position = [
             e for e in self.container.entities

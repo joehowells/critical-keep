@@ -1,3 +1,4 @@
+from copy import deepcopy
 from math import hypot
 
 from helper_functions import line_iter
@@ -8,8 +9,8 @@ class Map:
     def __init__(self, floor: MultiArray, rooms, endpoints):
         self.width = 64
         self.height = 28
-        self.walkable = MultiArray.from_multi_array(floor)
-        self.transparent = MultiArray.from_multi_array(floor)
+        self.walkable = deepcopy(floor)
+        self.transparent = deepcopy(floor)
         self.fov = MultiArray((64, 28), False)
         self.explored = MultiArray((64, 28), False)
         self.explored[:] = False
