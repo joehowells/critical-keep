@@ -34,7 +34,7 @@ class MultiArray:
         self.data = [value for _ in range(self.w*self.h)]
 
     @classmethod
-    def from_multiarray(cls, other, cast=None):
+    def from_multi_array(cls, other, cast=None):
         result = cls(other.w, other.h)
         if cast:
             result.data = list(map(cast, other.data))
@@ -65,19 +65,19 @@ class MultiArray:
                 self.data[i] = value
 
         else:
-            xkey, ykey = key
+            x_key, y_key = key
 
-            if isinstance(xkey, int):
-                xkey = range(xkey, xkey+1, 1)
+            if isinstance(x_key, int):
+                x_key = range(x_key, x_key+1, 1)
             else:
-                xkey = self.slice_to_range(xkey)
+                x_key = self.slice_to_range(x_key)
 
-            if isinstance(ykey, int):
-                ykey = range(ykey, ykey+1, 1)
+            if isinstance(y_key, int):
+                y_key = range(y_key, y_key+1, 1)
             else:
-                ykey = self.slice_to_range(ykey)
+                y_key = self.slice_to_range(y_key)
 
-            for i, j in product(xkey, ykey):
+            for i, j in product(x_key, y_key):
                 self.data[self.w * j + i] = value
 
     def __or__(self, other):

@@ -8,8 +8,8 @@ class Map:
     def __init__(self, floor: MultiArray, rooms, endpoints):
         self.width = 64
         self.height = 28
-        self.walkable = MultiArray.from_multiarray(floor)
-        self.transparent = MultiArray.from_multiarray(floor)
+        self.walkable = MultiArray.from_multi_array(floor)
+        self.transparent = MultiArray.from_multi_array(floor)
         self.fov = MultiArray(64, 28, False)
         self.explored = MultiArray(64, 28, False)
         self.explored[:] = False

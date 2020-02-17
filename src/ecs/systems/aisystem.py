@@ -84,7 +84,7 @@ class AISystem:
         x2 = player[PositionComponent].x
         y2 = player[PositionComponent].y
 
-        cost = MultiArray.from_multiarray(game_map.walkable, int)
+        cost = MultiArray.from_multi_array(game_map.walkable, int)
 
         entities_with_position = [
             e for e in self.container.entities
